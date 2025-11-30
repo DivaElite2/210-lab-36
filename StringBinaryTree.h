@@ -20,13 +20,76 @@ private:
    TreeNode *root;      
 
    // Private member functions for internal operations.
-   void insert(TreeNode *&, TreeNode *&);
-   void destroySubTree(TreeNode *);
-   void deleteNode(string, TreeNode *&); // changed to string
-   void makeDeletion(TreeNode *&);
-   void displayInOrder(TreeNode *) const;
-   void displayPreOrder(TreeNode *) const;
-   void displayPostOrder(TreeNode *) const;
+   void insert(TreeNode *&, TreeNode *&) {
+      if (!nodePtr)
+            nodePtr = newNode;
+        else if (newNode->value < nodePtr->value)
+            insert(nodePtr->left, newNode);
+        else 
+            insert(nodePtr->right, newNode);
+   }
+
+   void destroySubTree(TreeNode *) {
+      if (nodePtr) {
+            destroySubTree(nodePtr->left);
+            destroySubTree(nodePtr->right);
+            delete nodePtr;
+        }
+
+   }
+   void deleteNode(string str, TreeNode *&nodePtr) {
+      if (!nodePtr) return;
+        if (str < nodePtr->value)
+            deleteNode(str, nodePtr->left);
+        else if (str > nodePtr->value)
+            deleteNode(str, nodePtr->right);
+        else
+            makeDeletion(nodePtr);
+
+   }
+   void makeDeletion(TreeNode *&nodePtr) {
+      if (!nodePtr) return;
+        TreeNode *tempNodePtr;
+        if (!nodePtr->right) {
+            tempNodePtr = nodePtr;
+            nodePtr = nodePtr->left;
+            delete tempNodePtr;
+        } else if (!nodePtr->left) {
+            tempNodePtr = nodePtr;
+            nodePtr = nodePtr->right;
+            delete tempNodePtr;
+        } else {
+            tempNodePtr = nodePtr->right;
+            while (tempNodePtr->left)
+                tempNodePtr = tempNodePtr->left;
+            tempNodePtr->left = nodePtr->left;
+            tempNodePtr = nodePtr;
+            nodePtr = nodePtr->right;
+            delete tempNodePtr;
+        }
+
+   }
+   void displayInOrder(TreeNode *nodePtr) const {
+      if (nodePtr) {
+            displayInOrder(nodePtr->left);
+            cout << nodePtr->value << endl;
+            displayInOrder(nodePtr->right);
+        }
+   }
+   void displayPreOrder(TreeNode *nodePtr) const {
+      if (nodePtr) {
+            cout << nodePtr->value << endl;
+            displayPreOrder(nodePtr->left);     
+            displayPreOrder(nodePtr->right);
+        }
+   }
+   void displayPostOrder(TreeNode *nodePtr) const {
+      if (nodePtr) {
+            displayPostOrder(nodePtr->left);    
+            displayPostOrder(nodePtr->right);
+            cout << nodePtr->value << endl;
+        }
+   }
 
 public:
    // Constructor initializes the root to nullptr, indicating an empty tree.
@@ -36,45 +99,49 @@ public:
    ~StringBinaryTree()    { destroySubTree(root); }
 
    // Public interface for inserting, searching, and removing nodes (changed from int to string)
-   void insertNode(string);
-   bool searchNode(string);
-   void remove(string);
-   
-   //testing function
+   void insertNode(string str) {
+        TreeNode *newNode = new TreeNode;
+        newNode->value = str;
+        newNode->left = newNode->right = nullptr;
+        insert(root, newNode);
+    }
 
-bool modify(string oldValue, string newValue) {
-        // Check if old value exists
+    bool searchNode(string str) {
+        TreeNode *nodePtr = root;
+        while (nodePtr) {
+            if (nodePtr->value == str) return true;
+            else if (str < nodePtr->value) nodePtr = nodePtr->left;
+            else nodePtr = nodePtr->right;
+        }
+        return false;
+    }
+
+    void remove(string str) {
+        deleteNode(str, root);
+    }
+
+    bool modify(string oldValue, string newValue) {
         if (!searchNode(oldValue)) {
-            cout << "Error: Code '" << oldValue << "' not found in tree.\n";
+            cout << "Error: '" << oldValue << "' not found.\n";
             return false;
         }
-        
-        // Check if new value already exists
         if (searchNode(newValue)) {
-            cout << "Error: New code '" << newValue << "' already exists in tree.\n";
+            cout << "Error: '" << newValue << "' already exists.\n";
             return false;
         }
-        
-        // Remove old and insert new
         remove(oldValue);
         insertNode(newValue);
-        
-        cout << "Successfully modified '" << oldValue << "' to '" << newValue << "'\n";
+        cout << "Modified '" << oldValue << "' to '" << newValue << "'\n";
         return true;
     }
 
-
-
-
-
-
-   
-   // Public wrappers for tree traversal functions.
-   void displayInOrder() const     {  displayInOrder(root); }
-   void displayPreOrder() const    {  displayPreOrder(root); }
-   void displayPostOrder() const   {  displayPostOrder(root); }
+    void displayInOrder() const { displayInOrder(root); }
+    void displayPreOrder() const { displayPreOrder(root); }
+    void displayPostOrder() const { displayPostOrder(root); }
 };
 
 
 
-#endif // INTBINARYTREE_H
+
+
+#endif // STRINGBINARYTREE_H
