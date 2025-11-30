@@ -1,6 +1,6 @@
 // Specification file for the IntBinaryTree class
-#ifndef INTBINARYTREE_H
-#define INTBINARYTREE_H
+#ifndef STRINGBINARYTREE_H
+#define STRINGBINARYTREE_H
 
 
 #include <iostream>

@@ -1,7 +1,7 @@
 // Implementation file for the IntBinaryTree class
 #include <iostream>
 #include <string>
-#include "IntBinaryTree.h"
+#include "StringBinaryTree.h"
 using namespace std;
 
 
@@ -81,6 +81,7 @@ void StringBinaryTree::remove(string str) {
 // deleteNode deletes the node whose value 
 // member is the same as num.              
 void StringBinaryTree::deleteNode(string str, TreeNode *&nodePtr) {
+
    if (str < nodePtr->value)
       deleteNode(str, nodePtr->left);
    else if (str > nodePtr->value)
@@ -154,3 +155,7 @@ void StringBinaryTree::displayPostOrder(TreeNode *nodePtr) const {
       cout << nodePtr->value << endl;
    }
 }
+
+
+
+
