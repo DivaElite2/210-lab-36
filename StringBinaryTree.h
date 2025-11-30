@@ -20,7 +20,7 @@ private:
    TreeNode *root;      
 
    // Private member functions for internal operations.
-   void insert(TreeNode *&, TreeNode *&) {
+   void insert(TreeNode *&nodePtr, TreeNode *&newNode) {
       if (!nodePtr)
             nodePtr = newNode;
         else if (newNode->value < nodePtr->value)
@@ -29,7 +29,7 @@ private:
             insert(nodePtr->right, newNode);
    }
 
-   void destroySubTree(TreeNode *) {
+   void destroySubTree(TreeNode *nodePtr) {
       if (nodePtr) {
             destroySubTree(nodePtr->left);
             destroySubTree(nodePtr->right);
