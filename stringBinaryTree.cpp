@@ -30,12 +30,12 @@ void StringBinaryTree::insert(TreeNode *&nodePtr, TreeNode *&newNode) {
 
 // insertNode creates a new node to hold num as its value,
 // and passes it to the insert function.                  
-void StringBinaryTree::insertNode(string num) {
+void StringBinaryTree::insertNode(string str) {
    TreeNode *newNode;      // Pointer to a new node.
 
    // Create a new node and store num in it.
    newNode = new TreeNode;
-   newNode->value = num;
+   newNode->value = str;
    newNode->left = newNode->right = nullptr;
    
    // Insert the node.
@@ -58,13 +58,13 @@ void StringBinaryTree::destroySubTree(TreeNode *nodePtr) {
 // searchNode determines if a value is present in  
 // the tree. If so, the function returns true.     
 // Otherwise, it returns false.                    
-bool StringBinaryTree::searchNode(string num) {
+bool StringBinaryTree::searchNode(string str) {
    TreeNode *nodePtr = root;
 
    while (nodePtr)    {
-      if (nodePtr->value == num)
+      if (nodePtr->value == str)
          return true;
-      else if (num < nodePtr->value)
+      else if (str < nodePtr->value)
          nodePtr = nodePtr->left;
       else
          nodePtr = nodePtr->right;
@@ -74,17 +74,17 @@ bool StringBinaryTree::searchNode(string num) {
 
 // remove calls deleteNode to delete the      
 // node whose value member is the same as num.
-void StringBinaryTree::remove(string num) {
-   deleteNode(num, root);
+void StringBinaryTree::remove(string str) {
+   deleteNode(str, root);
 }
 
 // deleteNode deletes the node whose value 
 // member is the same as num.              
-void StringBinaryTree::deleteNode(string num, TreeNode *&nodePtr) {
-   if (num < nodePtr->value)
-      deleteNode(num, nodePtr->left);
-   else if (num > nodePtr->value)
-      deleteNode(num, nodePtr->right);
+void StringBinaryTree::deleteNode(string str, TreeNode *&nodePtr) {
+   if (str < nodePtr->value)
+      deleteNode(str, nodePtr->left);
+   else if (str > nodePtr->value)
+      deleteNode(str, nodePtr->right);
    else
       makeDeletion(nodePtr);
 }

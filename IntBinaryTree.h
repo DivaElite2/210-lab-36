@@ -3,6 +3,9 @@
 #define INTBINARYTREE_H
 
 
+#include <iostream>
+#include <string>
+using namespace std;
 // The IntBinaryTree class manages a binary tree of integers.
 class StringBinaryTree {
 private:
@@ -36,7 +39,36 @@ public:
    void insertNode(string);
    bool searchNode(string);
    void remove(string);
+   
+   //testing function
 
+bool modify(string oldValue, string newValue) {
+        // Check if old value exists
+        if (!searchNode(oldValue)) {
+            cout << "Error: Code '" << oldValue << "' not found in tree.\n";
+            return false;
+        }
+        
+        // Check if new value already exists
+        if (searchNode(newValue)) {
+            cout << "Error: New code '" << newValue << "' already exists in tree.\n";
+            return false;
+        }
+        
+        // Remove old and insert new
+        remove(oldValue);
+        insertNode(newValue);
+        
+        cout << "Successfully modified '" << oldValue << "' to '" << newValue << "'\n";
+        return true;
+    }
+
+
+
+
+
+
+   
    // Public wrappers for tree traversal functions.
    void displayInOrder() const     {  displayInOrder(root); }
    void displayPreOrder() const    {  displayPreOrder(root); }
